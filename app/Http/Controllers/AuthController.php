@@ -43,11 +43,11 @@ class AuthController extends Controller
     public function login(Request $request)
     {
         $credentials = $request->validate([
-            'email' => ['required', 'string'],
+            'email' => ['required', 'email'],
             'password' => ['required'],
         ]);
 
-        // Try to login with the entered username/email and password.
+        // Try to login with the entered email and password.
         if (Auth::attempt($credentials)) {
             $request->session()->regenerate();
 
