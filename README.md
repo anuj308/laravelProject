@@ -78,9 +78,10 @@ http://127.0.0.1:8000
 
 ## Demo Login
 
-- Admin: `admin@tourease.test`
+- Admin: `admin`
 - User: `user@tourease.test`
-- Password for both: `password`
+- Admin password: `admin`
+- User password: `password`
 
 ## Useful Routes
 

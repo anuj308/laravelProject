@@ -20,8 +20,8 @@ class DatabaseSeeder extends Seeder
     {
         User::create([
             'name' => 'TourEase Admin',
-            'email' => 'admin@tourease.test',
-            'password' => Hash::make('password'),
+            'email' => 'admin',
+            'password' => Hash::make('admin'),
             'role' => 'admin',
         ]);
 
