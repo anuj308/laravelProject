@@ -33,46 +33,77 @@ class DatabaseSeeder extends Seeder
             'role' => 'user',
         ]);
 
+        // 1. North: Kashmir
+        $kashmir = Destination::create([
+            'name' => 'Kashmir Valley',
+            'location' => 'Jammu & Kashmir, India',
+            'image' => 'https://images.unsplash.com/photo-1595815771614-ade9d652a65d?auto=format&fit=crop&w=900&q=80',
+            'description' => 'Known as Paradise on Earth. Experience the serene Dal Lake, snow-capped peaks of Gulmarg, and lush green valleys.',
+            'rating' => 4.9,
+        ]);
+
+        // 2. South: Kerala
+        $kerala = Destination::create([
+            'name' => 'Kerala Backwaters',
+            'location' => 'Alleppey, Kerala',
+            'image' => 'https://images.unsplash.com/photo-1602216056096-3b40cc0c9944?auto=format&fit=crop&w=900&q=80',
+            'description' => 'God\'s Own Country. Cruise through tranquil backwaters in traditional houseboats surrounded by lush palm trees and spice plantations.',
+            'rating' => 4.8,
+        ]);
+
+        // 3. East: Meghalaya
+        $meghalaya = Destination::create([
+            'name' => 'Meghalaya Living Bridges',
+            'location' => 'Shillong, Meghalaya',
+            'image' => 'https://images.unsplash.com/photo-1629215099394-82a9dbb2c914?auto=format&fit=crop&w=900&q=80',
+            'description' => 'The Scotland of the East. Famous for its living root bridges, crystal clear rivers, and the highest rainfall in the world.',
+            'rating' => 4.7,
+        ]);
+
+        // 4. West: Udaipur
+        $udaipur = Destination::create([
+            'name' => 'Udaipur Royal Heritage',
+            'location' => 'Rajasthan, India',
+            'image' => 'https://images.unsplash.com/photo-1615836245337-f839d72422eb?auto=format&fit=crop&w=900&q=80',
+            'description' => 'The City of Lakes. A majestic experience of Rajputana palaces, tranquil lakes, and vibrant local markets.',
+            'rating' => 4.8,
+        ]);
+
+        // 5. Central/Coast: Goa
         $goa = Destination::create([
             'name' => 'Goa Beach Escape',
             'location' => 'Goa, India',
             'image' => 'https://images.unsplash.com/photo-1512343879784-a960bf40e7f2?auto=format&fit=crop&w=900&q=80',
-            'description' => 'A relaxing beach destination with water sports, seafood, churches, forts, and night markets.',
-            'rating' => 4.7,
-        ]);
-
-        $jaipur = Destination::create([
-            'name' => 'Jaipur Heritage Tour',
-            'location' => 'Rajasthan, India',
-            'image' => 'https://images.unsplash.com/photo-1477587458883-47145ed94245?auto=format&fit=crop&w=900&q=80',
-            'description' => 'A royal city experience with forts, palaces, traditional food, shopping streets, and cultural events.',
+            'description' => 'A relaxing beach destination with thrilling water sports, ancient churches, historic forts, and vibrant night markets.',
             'rating' => 4.6,
         ]);
 
-        $manali = Destination::create([
-            'name' => 'Manali Mountain Holiday',
-            'location' => 'Himachal Pradesh, India',
-            'image' => 'https://images.unsplash.com/photo-1626621341517-bbf3d9990a23?auto=format&fit=crop&w=900&q=80',
-            'description' => 'A scenic hill destination for snow views, adventure activities, cafes, temples, and peaceful stays.',
-            'rating' => 4.8,
-        ]);
+        // Hotels
+        Hotel::create(['destination_id' => $kashmir->id, 'name' => 'Dal View Houseboat', 'location' => 'Srinagar', 'image' => 'https://images.unsplash.com/photo-1595815771614-ade9d652a65d?auto=format&fit=crop&w=900&q=80', 'description' => 'A luxury floating stay on Dal Lake with warm hospitality and Kashmiri cuisine.', 'price_per_night' => 5500, 'available_rooms' => 5, 'rating' => 4.8]);
+        Hotel::create(['destination_id' => $kerala->id, 'name' => 'Backwater Retreat', 'location' => 'Alleppey', 'image' => 'https://images.unsplash.com/photo-1602216056096-3b40cc0c9944?auto=format&fit=crop&w=900&q=80', 'description' => 'A serene eco-resort right on the backwaters offering Ayurvedic spas.', 'price_per_night' => 6200, 'available_rooms' => 10, 'rating' => 4.9]);
+        Hotel::create(['destination_id' => $meghalaya->id, 'name' => 'Cloud Nine Resort', 'location' => 'Cherrapunji', 'image' => 'https://images.unsplash.com/photo-1629215099394-82a9dbb2c914?auto=format&fit=crop&w=900&q=80', 'description' => 'Stay among the clouds with breathtaking views of the plunging waterfalls.', 'price_per_night' => 4000, 'available_rooms' => 8, 'rating' => 4.5]);
+        Hotel::create(['destination_id' => $udaipur->id, 'name' => 'Lake Palace Heritage', 'location' => 'Lake Pichola', 'image' => 'https://images.unsplash.com/photo-1615836245337-f839d72422eb?auto=format&fit=crop&w=900&q=80', 'description' => 'Experience royalty in this beautifully restored heritage haveli.', 'price_per_night' => 8500, 'available_rooms' => 15, 'rating' => 4.9]);
+        Hotel::create(['destination_id' => $goa->id, 'name' => 'Sea Breeze Resort', 'location' => 'Baga Beach', 'image' => 'https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=900&q=80', 'description' => 'A beach-side hotel with clean rooms, pool, and quick access to the beach.', 'price_per_night' => 4200, 'available_rooms' => 12, 'rating' => 4.5]);
 
-        Hotel::create(['destination_id' => $goa->id, 'name' => 'Sea Breeze Resort', 'location' => 'Baga, Goa', 'image' => 'https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=900&q=80', 'description' => 'A beach-side hotel with clean rooms, pool, restaurant, and quick access to Baga beach.', 'price_per_night' => 4200, 'available_rooms' => 12, 'rating' => 4.5]);
-        Hotel::create(['destination_id' => $jaipur->id, 'name' => 'Pink City Heritage Inn', 'location' => 'Jaipur, Rajasthan', 'image' => 'https://images.unsplash.com/photo-1582719508461-905c673771fd?auto=format&fit=crop&w=900&q=80', 'description' => 'A comfortable heritage-style hotel near major tourist attractions and local markets.', 'price_per_night' => 3500, 'available_rooms' => 8, 'rating' => 4.3]);
-        Hotel::create(['destination_id' => $manali->id, 'name' => 'Snow Peak Stay', 'location' => 'Manali, Himachal Pradesh', 'image' => 'https://images.unsplash.com/photo-1571896349842-33c89424de2d?auto=format&fit=crop&w=900&q=80', 'description' => 'A mountain-view stay with warm rooms, local food, and travel desk support for sightseeing.', 'price_per_night' => 2800, 'available_rooms' => 10, 'rating' => 4.4]);
+        // Packages
+        TravelPackage::create(['destination_id' => $kashmir->id, 'title' => 'Gulmarg Ski & Stay', 'description' => 'Includes ski passes, local transit, and houseboat stay.', 'price' => 12000, 'duration_days' => 4, 'image' => $kashmir->image]);
+        TravelPackage::create(['destination_id' => $kerala->id, 'title' => 'Spice Plantation Tour', 'description' => 'Includes houseboat cruise, spice tour, and traditional meals.', 'price' => 9500, 'duration_days' => 3, 'image' => $kerala->image]);
+        TravelPackage::create(['destination_id' => $meghalaya->id, 'title' => 'Root Bridge Trekking', 'description' => 'Guided trek to double-decker living root bridges with camping.', 'price' => 7000, 'duration_days' => 3, 'image' => $meghalaya->image]);
+        TravelPackage::create(['destination_id' => $udaipur->id, 'title' => 'Royal Rajasthan Tour', 'description' => 'City palace tour, boat ride on Pichola, and dinner at a fort.', 'price' => 11000, 'duration_days' => 2, 'image' => $udaipur->image]);
+        TravelPackage::create(['destination_id' => $goa->id, 'title' => '3 Day Goa Fun Package', 'description' => 'Includes beach visits, water sports assistance, and sightseeing.', 'price' => 8500, 'duration_days' => 3, 'image' => $goa->image]);
 
-        TravelPackage::create(['destination_id' => $goa->id, 'title' => '3 Day Goa Fun Package', 'description' => 'Includes beach visits, hotel stay support, water sports assistance, and local sightseeing.', 'price' => 8500, 'duration_days' => 3, 'image' => $goa->image]);
-        TravelPackage::create(['destination_id' => $jaipur->id, 'title' => 'Jaipur Culture Package', 'description' => 'Includes fort visits, city palace tour, local guide support, shopping time, and food walk.', 'price' => 7200, 'duration_days' => 2, 'image' => $jaipur->image]);
-        TravelPackage::create(['destination_id' => $manali->id, 'title' => 'Manali Adventure Package', 'description' => 'Includes Solang Valley visit, snow activity help, local transfers, and sightseeing plan.', 'price' => 9500, 'duration_days' => 4, 'image' => $manali->image]);
-
-        LocalGuide::create(['destination_id' => $goa->id, 'name' => 'Aarav Naik', 'phone' => '9876543210', 'email' => 'aarav.guide@tourease.test', 'languages' => 'English, Hindi, Konkani', 'fee_per_day' => 1800, 'rating' => 4.6]);
-        LocalGuide::create(['destination_id' => $jaipur->id, 'name' => 'Meera Sharma', 'phone' => '9876501234', 'email' => 'meera.guide@tourease.test', 'languages' => 'English, Hindi, Rajasthani', 'fee_per_day' => 1600, 'rating' => 4.8]);
-        LocalGuide::create(['destination_id' => $manali->id, 'name' => 'Karan Thakur', 'phone' => '9876512345', 'email' => 'karan.guide@tourease.test', 'languages' => 'English, Hindi', 'fee_per_day' => 1500, 'rating' => 4.5]);
+        // Guides
+        LocalGuide::create(['destination_id' => $kashmir->id, 'name' => 'Tariq Ahmed', 'phone' => '9876500001', 'email' => 'tariq@tourease.test', 'languages' => 'English, Hindi, Kashmiri', 'fee_per_day' => 2000, 'rating' => 4.9]);
+        LocalGuide::create(['destination_id' => $kerala->id, 'name' => 'Lakshmi Nair', 'phone' => '9876500002', 'email' => 'lakshmi@tourease.test', 'languages' => 'English, Malayalam', 'fee_per_day' => 1800, 'rating' => 4.8]);
+        LocalGuide::create(['destination_id' => $meghalaya->id, 'name' => 'John Khasi', 'phone' => '9876500003', 'email' => 'john@tourease.test', 'languages' => 'English, Khasi', 'fee_per_day' => 1500, 'rating' => 4.7]);
+        LocalGuide::create(['destination_id' => $udaipur->id, 'name' => 'Vikram Singh', 'phone' => '9876500004', 'email' => 'vikram@tourease.test', 'languages' => 'English, Hindi, Rajasthani', 'fee_per_day' => 2200, 'rating' => 4.9]);
+        LocalGuide::create(['destination_id' => $goa->id, 'name' => 'Aarav Naik', 'phone' => '9876500005', 'email' => 'aarav@tourease.test', 'languages' => 'English, Hindi, Konkani', 'fee_per_day' => 1800, 'rating' => 4.6]);
 
         Transport::insert([
-            ['type' => 'Bus', 'route' => 'Delhi to Jaipur', 'provider' => 'Rajasthan Travels', 'departure_time' => '08:30', 'available_seats' => 22, 'price' => 650, 'created_at' => now(), 'updated_at' => now()],
-            ['type' => 'Flight', 'route' => 'Mumbai to Goa', 'provider' => 'SkyGo', 'departure_time' => '10:15', 'available_seats' => 45, 'price' => 3200, 'created_at' => now(), 'updated_at' => now()],
-            ['type' => 'Cab', 'route' => 'Chandigarh to Manali', 'provider' => 'Hill Cab Service', 'departure_time' => '06:00', 'available_seats' => 4, 'price' => 5500, 'created_at' => now(), 'updated_at' => now()],
+            ['type' => 'Flight', 'route' => 'Delhi to Srinagar', 'provider' => 'SkyGo', 'departure_time' => '07:30', 'available_seats' => 45, 'price' => 4500, 'created_at' => now(), 'updated_at' => now()],
+            ['type' => 'Train', 'route' => 'Mumbai to Kerala', 'provider' => 'Indian Railways', 'departure_time' => '18:00', 'available_seats' => 120, 'price' => 2200, 'created_at' => now(), 'updated_at' => now()],
+            ['type' => 'Cab', 'route' => 'Guwahati to Shillong', 'provider' => 'Hill Cab Service', 'departure_time' => '09:00', 'available_seats' => 4, 'price' => 3000, 'created_at' => now(), 'updated_at' => now()],
+            ['type' => 'Bus', 'route' => 'Delhi to Udaipur', 'provider' => 'Rajasthan Travels', 'departure_time' => '20:30', 'available_seats' => 22, 'price' => 1200, 'created_at' => now(), 'updated_at' => now()],
         ]);
     }
 }

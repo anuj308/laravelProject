@@ -3,33 +3,15 @@
 @section('title', 'Home')
 
 @section('content')
-    <!-- Cinematic Hero Section with Floating Widget -->
-    <section class="relative pt-24 pb-32 lg:pt-36 lg:pb-48 flex items-center justify-center min-h-[90vh] overflow-hidden">
+    <!-- Cinematic Minimal Hero Section -->
+    <section class="relative pt-24 pb-32 lg:pt-36 lg:pb-32 flex flex-col items-center justify-center min-h-[90vh] overflow-hidden">
         <!-- Dynamic Background -->
         <div class="absolute inset-0 w-full h-full">
             <img src="https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?auto=format&fit=crop&w=2000&q=80" alt="Travel Background" class="w-full h-full object-cover object-center scale-105 animate-[pulse_20s_ease-in-out_infinite_alternate]" />
             <div class="absolute inset-0 bg-slate-950/60 backdrop-blur-[2px]"></div>
         </div>
 
-        <!-- Floating Trust Badge -->
-        <div class="absolute top-32 left-10 hidden lg:flex items-center gap-3 bg-white/10 backdrop-blur-md border border-white/20 p-3 rounded-2xl shadow-2xl animate-[bounce_4s_ease-in-out_infinite]">
-            <div class="bg-amber-400 text-slate-900 rounded-full p-2"><i class="bi bi-star-fill"></i></div>
-            <div>
-                <p class="text-white font-bold text-sm leading-tight">4.9/5 Rating</p>
-                <p class="text-slate-300 text-xs">From 10k+ Travelers</p>
-            </div>
-        </div>
-
-        <!-- Floating Feature Badge -->
-        <div class="absolute bottom-40 right-12 hidden lg:flex items-center gap-3 bg-white/10 backdrop-blur-md border border-white/20 p-3 rounded-2xl shadow-2xl animate-[bounce_5s_ease-in-out_infinite_reverse]">
-            <div class="bg-teal-500 text-white rounded-full p-2"><i class="bi bi-shield-check"></i></div>
-            <div>
-                <p class="text-white font-bold text-sm leading-tight">Smart Bundling</p>
-                <p class="text-slate-300 text-xs">Save up to 30%</p>
-            </div>
-        </div>
-
-        <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full flex flex-col items-center">
+        <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full flex flex-col items-center mt-10">
             
             <!-- Hero Text -->
             <div class="text-center max-w-3xl mb-12">
@@ -65,6 +47,12 @@
                     </button>
                 </form>
             </div>
+        </div>
+
+        <!-- Subtle Scroll Indicator -->
+        <div class="absolute bottom-10 left-1/2 transform -translate-x-1/2 flex flex-col items-center opacity-70 animate-bounce">
+            <span class="text-white text-xs font-semibold uppercase tracking-widest mb-2">Discover</span>
+            <i class="bi bi-chevron-down text-white text-xl"></i>
         </div>
     </section>
 
