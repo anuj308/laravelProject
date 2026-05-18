@@ -4,78 +4,124 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>@yield('title', 'Welcome') | TourEase</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <!-- Bootstrap Icons -->
+    
+    <!-- Google Fonts: Outfit -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Bootstrap Icons (still useful for icons) -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    
+    <!-- Vite/Tailwind Assets -->
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
+
     <style>
-        body { background: #f7f9fb; }
-        .brand-badge { background: #0f766e; color: white; border-radius: 6px; padding: 4px 8px; }
-        .hero { background: linear-gradient(rgba(7, 31, 45, .72), rgba(7, 31, 45, .72)), url('https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1600&q=80') center/cover; color: white; }
-        .card-img-top { height: 190px; object-fit: cover; }
-        .rating { color: #b45309; font-weight: 700; }
+        body { font-family: 'Outfit', sans-serif; background-color: #f8fafc; }
     </style>
 </head>
-<body>
-    <nav class="navbar navbar-expand-lg bg-white border-bottom sticky-top shadow-sm">
-        <div class="container">
-            <a class="navbar-brand fw-bold" href="{{ route('home') }}"><span class="brand-badge">TourEase</span></a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav me-auto">
-                    <li class="nav-item"><a class="nav-link" href="{{ route('destinations.index') }}">Destinations</a></li>
-                    <li class="nav-item"><a class="nav-link" href="{{ route('hotels.index') }}">Hotels</a></li>
-                    <li class="nav-item"><a class="nav-link" href="{{ route('packages.index') }}">Packages</a></li>
-                    <li class="nav-item"><a class="nav-link" href="{{ route('guides.index') }}">Guides</a></li>
-                    <li class="nav-item"><a class="nav-link" href="{{ route('transports.index') }}">Transports</a></li>
+<body class="text-slate-800 antialiased flex flex-col min-h-screen">
+    <!-- Navbar with Glassmorphism -->
+    <nav class="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-slate-200 shadow-sm transition-all duration-300">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <!-- Logo -->
+                <div class="flex-shrink-0 flex items-center">
+                    <a href="{{ route('home') }}" class="text-2xl font-bold tracking-tight text-teal-700 flex items-center gap-2">
+                        <i class="bi bi-compass-fill"></i>
+                        TourEase
+                    </a>
+                </div>
+
+                <!-- Desktop Menu -->
+                <div class="hidden md:flex space-x-8 items-center">
+                    <a href="{{ route('destinations.index') }}" class="text-slate-600 hover:text-teal-600 font-medium transition">Destinations</a>
+                    <a href="{{ route('hotels.index') }}" class="text-slate-600 hover:text-teal-600 font-medium transition">Hotels</a>
+                    <a href="{{ route('packages.index') }}" class="text-slate-600 hover:text-teal-600 font-medium transition">Packages</a>
+                    <a href="{{ route('guides.index') }}" class="text-slate-600 hover:text-teal-600 font-medium transition">Guides</a>
+                    <a href="{{ route('transports.index') }}" class="text-slate-600 hover:text-teal-600 font-medium transition">Transports</a>
                     
                     @auth
-                        <li class="nav-item ms-2"><a class="btn btn-sm btn-success mt-1" href="{{ route('trips.create') }}"><i class="bi bi-map"></i> Trip Planner</a></li>
-                        <li class="nav-item"><a class="nav-link" href="{{ route('trips.index') }}">My Trips</a></li>
-                        <li class="nav-item"><a class="nav-link" href="{{ route('bookings.history') }}">Bookings</a></li>
-                        @if(auth()->user()->isAdmin())
-                            <li class="nav-item"><a class="nav-link text-danger fw-bold" href="{{ route('admin.dashboard') }}">Admin</a></li>
-                        @endif
-                    @endauth
-                </ul>
-                <div class="d-flex gap-2 align-items-center">
-                    @auth
-                        <span class="small text-muted">{{ auth()->user()->name }}</span>
-                        <form method="POST" action="{{ route('logout') }}">
-                            @csrf
-                            <button class="btn btn-outline-dark btn-sm">Logout</button>
-                        </form>
+                        <a href="{{ route('trips.create') }}" class="bg-teal-600 text-white px-4 py-2 rounded-full font-medium hover:bg-teal-700 hover:shadow-lg hover:-translate-y-0.5 transition flex items-center gap-2">
+                            <i class="bi bi-map"></i> Plan Trip
+                        </a>
+                        <div class="relative group">
+                            <button class="flex items-center gap-1 text-slate-600 hover:text-teal-600 font-medium transition">
+                                My Account <i class="bi bi-chevron-down text-xs"></i>
+                            </button>
+                            <div class="absolute right-0 w-48 mt-2 origin-top-right bg-white border border-slate-100 rounded-xl shadow-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
+                                <div class="py-2">
+                                    <div class="px-4 py-2 text-xs text-slate-400 font-semibold uppercase tracking-wider">Hello, {{ auth()->user()->name }}</div>
+                                    <a href="{{ route('trips.index') }}" class="block px-4 py-2 text-sm text-slate-700 hover:bg-slate-50 hover:text-teal-600">My Trips</a>
+                                    <a href="{{ route('bookings.history') }}" class="block px-4 py-2 text-sm text-slate-700 hover:bg-slate-50 hover:text-teal-600">Bookings</a>
+                                    @if(auth()->user()->isAdmin())
+                                        <a href="{{ route('admin.dashboard') }}" class="block px-4 py-2 text-sm font-semibold text-rose-600 hover:bg-rose-50">Admin Panel</a>
+                                    @endif
+                                    <hr class="my-1 border-slate-100">
+                                    <form method="POST" action="{{ route('logout') }}" class="w-full">
+                                        @csrf
+                                        <button class="w-full text-left block px-4 py-2 text-sm text-slate-700 hover:bg-slate-50">Logout</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
                     @else
-                        <a class="btn btn-outline-dark btn-sm" href="{{ route('login') }}">Login</a>
-                        <a class="btn btn-success btn-sm" href="{{ route('register') }}">Register</a>
+                        <a href="{{ route('login') }}" class="text-slate-600 hover:text-teal-600 font-medium transition">Log in</a>
+                        <a href="{{ route('register') }}" class="bg-slate-900 text-white px-5 py-2 rounded-lg font-medium hover:bg-slate-800 hover:shadow-md transition">Sign up</a>
                     @endauth
                 </div>
             </div>
         </div>
     </nav>
 
-    <main>
-        <div class="container mt-3">
-            @include('partials.flash')
-        </div>
+    <main class="flex-grow">
+        @if(session('success') || session('error'))
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-6">
+                @if(session('success'))
+                    <div class="bg-teal-50 border-l-4 border-teal-500 p-4 rounded-r-lg shadow-sm">
+                        <div class="flex items-center">
+                            <i class="bi bi-check-circle-fill text-teal-500 mr-3 text-xl"></i>
+                            <p class="text-teal-800 font-medium">{{ session('success') }}</p>
+                        </div>
+                    </div>
+                @endif
+                @if(session('error'))
+                    <div class="bg-rose-50 border-l-4 border-rose-500 p-4 rounded-r-lg shadow-sm">
+                        <div class="flex items-center">
+                            <i class="bi bi-exclamation-triangle-fill text-rose-500 mr-3 text-xl"></i>
+                            <p class="text-rose-800 font-medium">{{ session('error') }}</p>
+                        </div>
+                    </div>
+                @endif
+            </div>
+        @endif
+        
         @yield('content')
     </main>
 
-    <footer class="border-top bg-white mt-5 py-4">
-        <div class="container small text-muted d-flex justify-content-between flex-wrap gap-2">
-            <span>TourEase tourism management platform</span>
-            <span>Built with Laravel MVC and Bootstrap</span>
+    <!-- Footer -->
+    <footer class="bg-white border-t border-slate-200 mt-20">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+            <div class="flex flex-col md:flex-row justify-between items-center gap-4">
+                <div class="flex items-center gap-2 text-xl font-bold text-slate-800">
+                    <i class="bi bi-compass-fill text-teal-600"></i> TourEase
+                </div>
+                <p class="text-slate-500 text-sm font-medium">© {{ date('Y') }} TourEase. Premium Tourism Platform.</p>
+                <div class="flex gap-4">
+                    <a href="#" class="text-slate-400 hover:text-teal-600 transition text-xl"><i class="bi bi-twitter-x"></i></a>
+                    <a href="#" class="text-slate-400 hover:text-teal-600 transition text-xl"><i class="bi bi-instagram"></i></a>
+                    <a href="#" class="text-slate-400 hover:text-teal-600 transition text-xl"><i class="bi bi-github"></i></a>
+                </div>
+            </div>
         </div>
     </footer>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <script>
-        // Image Fallback: Agar URL galat ho ya image load na ho, toh default image dikhao
+        // Image Fallback
         document.querySelectorAll('img').forEach(img => {
             img.onerror = function() {
                 this.onerror = null;
-                this.src = 'https://placehold.co/600x400?text=Image+Not+Found';
+                this.src = 'https://placehold.co/800x600/e2e8f0/64748b?text=Image+Not+Found';
             };
         });
     </script>
