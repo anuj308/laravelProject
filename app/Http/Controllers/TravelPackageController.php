@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 
 class TravelPackageController extends Controller
 {
+    // Public — packages ki list dikhana
     public function index()
     {
         return view('packages.index', [
@@ -16,89 +17,79 @@ class TravelPackageController extends Controller
         ]);
     }
 
+    // Admin — naya package create karna
     public function create()
     {
-        $this->checkAdmin();
-
         return view('packages.create', ['destinations' => Destination::orderBy('name')->get()]);
     }
 
+    // Admin — save package
     public function store(Request $request)
     {
-        $this->checkAdmin();
         TravelPackage::create($this->validatedData($request));
-
-        return redirect()->route('packages.index')->with('success', 'Package created successfully.');
+        return redirect()->route('packages.index')->with('success', 'Package create ho gaya.');
     }
 
+    // Public — package detail page
     public function show(TravelPackage $package)
     {
         $package->load('destination');
-
         return view('packages.show', compact('package'));
     }
 
+    // Admin — edit package
     public function edit(TravelPackage $package)
     {
-        $this->checkAdmin();
-
         return view('packages.edit', [
-            'package' => $package,
+            'package'      => $package,
             'destinations' => Destination::orderBy('name')->get(),
         ]);
     }
 
+    // Admin — update package details
     public function update(Request $request, TravelPackage $package)
     {
-        $this->checkAdmin();
         $package->update($this->validatedData($request));
-
-        return redirect()->route('packages.show', $package)->with('success', 'Package updated successfully.');
+        return redirect()->route('packages.show', $package)->with('success', 'Package update ho gaya.');
     }
 
+    // Admin — delete package
     public function destroy(TravelPackage $package)
     {
-        $this->checkAdmin();
         $package->delete();
-
-        return redirect()->route('packages.index')->with('success', 'Package deleted successfully.');
+        return redirect()->route('packages.index')->with('success', 'Package delete ho gaya.');
     }
 
+    // Logged-in user — package book karna
     public function book(Request $request, TravelPackage $package)
     {
-        abort_unless(auth()->check(), 403);
-
         $data = $request->validate([
             'travel_date' => ['required', 'date', 'after_or_equal:today'],
-            'people' => ['required', 'integer', 'min:1'],
+            'people'      => ['required', 'integer', 'min:1'],
         ]);
 
-        // Calculate package cost based on number of tourists.
+        // Total cost calculate karna base on logo ki sankhya
         PackageBooking::create([
-            'user_id' => auth()->id(),
+            'user_id'           => auth()->id(),
             'travel_package_id' => $package->id,
-            'travel_date' => $data['travel_date'],
-            'people' => $data['people'],
-            'total_price' => $package->price * $data['people'],
+            'travel_date'       => $data['travel_date'],
+            'people'            => $data['people'],
+            'total_price'       => $package->price * $data['people'],
         ]);
 
-        return redirect()->route('packages.index')->with('success', 'Package booked successfully.');
+        return redirect()->route('packages.index')->with('success', 'Package successfully book ho gaya.');
     }
 
+    // Validation rules
     private function validatedData(Request $request): array
     {
         return $request->validate([
             'destination_id' => ['nullable', 'exists:destinations,id'],
-            'title' => ['required', 'max:255'],
-            'description' => ['required'],
-            'price' => ['required', 'numeric', 'min:1'],
-            'duration_days' => ['required', 'integer', 'min:1'],
-            'image' => ['nullable', 'url'],
+            'title'          => ['required', 'max:255'],
+            'description'    => ['required'],
+            'price'          => ['required', 'numeric', 'min:1'],
+            'duration_days'  => ['required', 'integer', 'min:1'],
+            'image'          => ['nullable', 'url'],
         ]);
-    }
-
-    private function checkAdmin(): void
-    {
-        abort_unless(auth()->check() && auth()->user()->isAdmin(), 403);
     }
 }

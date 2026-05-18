@@ -32,6 +32,12 @@ class User extends Authenticatable
         return $this->hasMany(Review::class);
     }
 
+    // User ne kitni trips plan ki hain
+    public function trips()
+    {
+        return $this->hasMany(Trip::class);
+    }
+
     public function isAdmin(): bool
     {
         return $this->role === 'admin';

@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 
 class DestinationController extends Controller
 {
+    // Public — destinations ki list dikhana (search filters ke saath)
     public function index(Request $request)
     {
         $destinations = Destination::query()
@@ -23,66 +24,55 @@ class DestinationController extends Controller
         return view('destinations.index', compact('destinations'));
     }
 
+    // Admin — naya destination create karna
     public function create()
     {
-        $this->checkAdmin();
-
         return view('destinations.create');
     }
 
+    // Admin — save destination to DB
     public function store(Request $request)
     {
-        $this->checkAdmin();
-
         Destination::create($this->validatedData($request));
-
-        return redirect()->route('destinations.index')->with('success', 'Destination added successfully.');
+        return redirect()->route('destinations.index')->with('success', 'Destination add ho gayi.');
     }
 
+    // Public — single destination detail page
     public function show(Destination $destination)
     {
         $destination->load(['hotels', 'guides', 'packages', 'reviews.user']);
-
         return view('destinations.show', compact('destination'));
     }
 
+    // Admin — destination edit karna
     public function edit(Destination $destination)
     {
-        $this->checkAdmin();
-
         return view('destinations.edit', compact('destination'));
     }
 
+    // Admin — destination details update karna
     public function update(Request $request, Destination $destination)
     {
-        $this->checkAdmin();
-
         $destination->update($this->validatedData($request));
-
-        return redirect()->route('destinations.show', $destination)->with('success', 'Destination updated successfully.');
+        return redirect()->route('destinations.show', $destination)->with('success', 'Destination update ho gayi.');
     }
 
+    // Admin — destination delete karna
     public function destroy(Destination $destination)
     {
-        $this->checkAdmin();
         $destination->delete();
-
-        return redirect()->route('destinations.index')->with('success', 'Destination deleted successfully.');
+        return redirect()->route('destinations.index')->with('success', 'Destination remove ho gayi.');
     }
 
+    // Validation rules
     private function validatedData(Request $request): array
     {
         return $request->validate([
-            'name' => ['required', 'max:255'],
-            'location' => ['required', 'max:255'],
-            'image' => ['nullable', 'url'],
+            'name'        => ['required', 'max:255'],
+            'location'    => ['required', 'max:255'],
+            'image'       => ['nullable', 'url'], // Future upgrade: image upload add karna chahiye
             'description' => ['required'],
-            'rating' => ['required', 'numeric', 'min:0', 'max:5'],
+            'rating'      => ['required', 'numeric', 'min:0', 'max:5'],
         ]);
-    }
-
-    private function checkAdmin(): void
-    {
-        abort_unless(auth()->check() && auth()->user()->isAdmin(), 403);
     }
 }

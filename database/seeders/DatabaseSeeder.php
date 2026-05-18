@@ -18,11 +18,12 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
+        // Admin user create karo — email se login hoga
         User::create([
-            'name' => 'TourEase Admin',
-            'email' => 'admin',
-            'password' => Hash::make('admin'),
-            'role' => 'admin',
+            'name'     => 'TourEase Admin',
+            'email'    => 'admin@tourease.test',
+            'password' => Hash::make('password'),
+            'role'     => 'admin',
         ]);
 
         User::create([

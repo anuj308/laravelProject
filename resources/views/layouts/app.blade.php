@@ -3,8 +3,10 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>TourEase</title>
+    <title>@yield('title', 'Welcome') | TourEase</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <style>
         body { background: #f7f9fb; }
         .brand-badge { background: #0f766e; color: white; border-radius: 6px; padding: 4px 8px; }
@@ -14,7 +16,7 @@
     </style>
 </head>
 <body>
-    <nav class="navbar navbar-expand-lg bg-white border-bottom sticky-top">
+    <nav class="navbar navbar-expand-lg bg-white border-bottom sticky-top shadow-sm">
         <div class="container">
             <a class="navbar-brand fw-bold" href="{{ route('home') }}"><span class="brand-badge">TourEase</span></a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
@@ -26,16 +28,20 @@
                     <li class="nav-item"><a class="nav-link" href="{{ route('hotels.index') }}">Hotels</a></li>
                     <li class="nav-item"><a class="nav-link" href="{{ route('packages.index') }}">Packages</a></li>
                     <li class="nav-item"><a class="nav-link" href="{{ route('guides.index') }}">Guides</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{ route('transports.index') }}">Transports</a></li>
+                    
                     @auth
+                        <li class="nav-item ms-2"><a class="btn btn-sm btn-success mt-1" href="{{ route('trips.create') }}"><i class="bi bi-map"></i> Trip Planner</a></li>
+                        <li class="nav-item"><a class="nav-link" href="{{ route('trips.index') }}">My Trips</a></li>
                         <li class="nav-item"><a class="nav-link" href="{{ route('bookings.history') }}">Bookings</a></li>
                         @if(auth()->user()->isAdmin())
-                            <li class="nav-item"><a class="nav-link" href="{{ route('admin.dashboard') }}">Admin</a></li>
+                            <li class="nav-item"><a class="nav-link text-danger fw-bold" href="{{ route('admin.dashboard') }}">Admin</a></li>
                         @endif
                     @endauth
                 </ul>
                 <div class="d-flex gap-2 align-items-center">
                     @auth
-                        <span class="small text-muted">{{ auth()->user()->name }} ({{ auth()->user()->role }})</span>
+                        <span class="small text-muted">{{ auth()->user()->name }}</span>
                         <form method="POST" action="{{ route('logout') }}">
                             @csrf
                             <button class="btn btn-outline-dark btn-sm">Logout</button>
@@ -64,5 +70,14 @@
     </footer>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Image Fallback: Agar URL galat ho ya image load na ho, toh default image dikhao
+        document.querySelectorAll('img').forEach(img => {
+            img.onerror = function() {
+                this.onerror = null;
+                this.src = 'https://placehold.co/600x400?text=Image+Not+Found';
+            };
+        });
+    </script>
 </body>
 </html>

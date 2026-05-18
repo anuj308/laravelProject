@@ -2,53 +2,42 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Hash;
 
 class AdminAuthController extends Controller
 {
+    // Admin login form dikhana
     public function showLogin()
     {
+        // Agar pehle se logged in hai toh seedha dashboard pe bhejo
+        if (auth()->check() && auth()->user()->isAdmin()) {
+            return redirect()->route('admin.dashboard');
+        }
+
         return view('auth.admin-login');
     }
 
+    // Admin login process karna
     public function login(Request $request)
     {
-        $data = $request->validate([
-            'username' => ['required', 'string'],
+        $credentials = $request->validate([
+            'email'    => ['required', 'email'],
             'password' => ['required'],
         ]);
 
-        // Keep admin login separate from the normal user email login.
-        if ($data['username'] === 'admin' && $data['password'] === 'admin') {
-            $admin = User::where('email', 'admin')->first() ?? User::where('role', 'admin')->first();
-
-            if ($admin) {
-                $admin->update([
-                    'name' => 'TourEase Admin',
-                    'email' => 'admin',
-                    'password' => Hash::make('admin'),
-                    'role' => 'admin',
-                ]);
-            } else {
-                $admin = User::create([
-                    'name' => 'TourEase Admin',
-                    'email' => 'admin',
-                    'password' => Hash::make('admin'),
-                    'role' => 'admin',
-                ]);
+        // Normal Auth::attempt use karo — same as user login, sirf role check alag hai
+        if (Auth::attempt($credentials)) {
+            // Login toh ho gaya, ab check karo ki yeh actually admin hai
+            if (!auth()->user()->isAdmin()) {
+                Auth::logout();
+                return back()->withErrors(['email' => 'Yeh account admin nahi hai.']);
             }
 
-            Auth::login($admin);
             $request->session()->regenerate();
-
-            return redirect()->route('admin.dashboard')->with('success', 'Admin logged in successfully.');
+            return redirect()->route('admin.dashboard')->with('success', 'Admin login successful.');
         }
 
-        return back()->withErrors([
-            'username' => 'Admin username or password is incorrect.',
-        ])->onlyInput('username');
+        return back()->withErrors(['email' => 'Email ya password galat hai.'])->onlyInput('email');
     }
 }
