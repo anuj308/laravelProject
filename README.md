@@ -1,6 +1,6 @@
-# TourEase - Laravel Tourism Management Platform
+# OmniTrek - Laravel Tourism Management Platform
 
-TourEase is a simple Laravel MVC project for tourism industry support. It helps tourists discover destinations, book hotels, choose travel packages, contact local guides, check transport options, and write reviews.
+OmniTrek is a simple Laravel MVC project for tourism industry support. It helps tourists discover destinations, book hotels, choose travel packages, contact local guides, check transport options, and write reviews.
 
 ## Main Features
 
@@ -80,7 +80,7 @@ http://127.0.0.1:8000
 
 - Admin page: `/admin/login`
 - Admin username: `admin`
-- User: `user@tourease.test`
+- User: `user@omnitrek.test`
 - Admin password: `admin`
 - User password: `password`
 

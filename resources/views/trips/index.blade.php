@@ -20,7 +20,7 @@
                     <i class="bi bi-map"></i>
                 </div>
                 <h2 class="text-xl font-bold text-slate-800 mb-2">No trips planned yet</h2>
-                <p class="text-slate-500 max-w-md mx-auto mb-8">You haven't planned any trips with TourEase. Start planning today and explore the world effortlessly.</p>
+                <p class="text-slate-500 max-w-md mx-auto mb-8">You haven't planned any trips with OmniTrek. Start planning today and explore the world effortlessly.</p>
                 <a href="{{ route('trips.create') }}" class="inline-block px-8 py-3 rounded-xl bg-slate-900 text-white font-semibold hover:bg-slate-800 transition shadow-sm">
                     Start Planning Now
                 </a>

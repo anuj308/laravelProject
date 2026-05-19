@@ -1,39 +1,50 @@
 @csrf
-
-<div class="row g-3">
-    <div class="col-md-6">
-        <label class="form-label">Type (e.g., Bus, Flight, Cab)</label>
-        <input type="text" name="type" class="form-control @error('type') is-invalid @enderror" value="{{ old('type', $transport->type ?? '') }}" required>
-        @error('type') <div class="invalid-feedback">{{ $message }}</div> @enderror
+<div class="space-y-6">
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div>
+            <label class="block text-sm font-bold text-slate-700 mb-2">Transport Type</label>
+            <select name="type" class="block w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-slate-700 focus:ring-2 focus:ring-teal-500 focus:border-teal-500 transition focus:bg-white appearance-none" required>
+                <option value="Flight" @selected(old('type', $transport->type ?? '') == 'Flight')>Flight</option>
+                <option value="Train" @selected(old('type', $transport->type ?? '') == 'Train')>Train</option>
+                <option value="Bus" @selected(old('type', $transport->type ?? '') == 'Bus')>Bus</option>
+                <option value="Cab" @selected(old('type', $transport->type ?? '') == 'Cab')>Cab</option>
+            </select>
+        </div>
+        
+        <div>
+            <label class="block text-sm font-bold text-slate-700 mb-2">Provider Name</label>
+            <input name="provider" value="{{ old('provider', $transport->provider ?? '') }}" class="block w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-slate-700 focus:ring-2 focus:ring-teal-500 focus:border-teal-500 transition focus:bg-white" required placeholder="e.g. Indigo Airlines">
+        </div>
     </div>
 
-    <div class="col-md-6">
-        <label class="form-label">Provider (Company Name)</label>
-        <input type="text" name="provider" class="form-control @error('provider') is-invalid @enderror" value="{{ old('provider', $transport->provider ?? '') }}" required>
-        @error('provider') <div class="invalid-feedback">{{ $message }}</div> @enderror
+    <div>
+        <label class="block text-sm font-bold text-slate-700 mb-2">Route Details</label>
+        <input name="route" value="{{ old('route', $transport->route ?? '') }}" class="block w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-slate-700 focus:ring-2 focus:ring-teal-500 focus:border-teal-500 transition focus:bg-white" required placeholder="e.g. Delhi to Mumbai">
     </div>
 
-    <div class="col-md-12">
-        <label class="form-label">Route (e.g., Delhi to Jaipur)</label>
-        <input type="text" name="route" class="form-control @error('route') is-invalid @enderror" value="{{ old('route', $transport->route ?? '') }}" required>
-        @error('route') <div class="invalid-feedback">{{ $message }}</div> @enderror
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div>
+            <label class="block text-sm font-bold text-slate-700 mb-2">Price (₹)</label>
+            <input name="price" type="number" value="{{ old('price', $transport->price ?? '') }}" class="block w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-slate-700 focus:ring-2 focus:ring-teal-500 focus:border-teal-500 transition focus:bg-white" required placeholder="e.g. 3500">
+        </div>
+        
+        <div>
+            <label class="block text-sm font-bold text-slate-700 mb-2">Departure Time</label>
+            <input name="departure_time" type="time" value="{{ old('departure_time', isset($transport) ? \Carbon\Carbon::parse($transport->departure_time)->format('H:i') : '') }}" class="block w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-slate-700 focus:ring-2 focus:ring-teal-500 focus:border-teal-500 transition focus:bg-white" required>
+        </div>
+
+        <div>
+            <label class="block text-sm font-bold text-slate-700 mb-2">Available Seats</label>
+            <input name="available_seats" type="number" min="0" value="{{ old('available_seats', $transport->available_seats ?? '') }}" class="block w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-slate-700 focus:ring-2 focus:ring-teal-500 focus:border-teal-500 transition focus:bg-white" required placeholder="e.g. 40">
+        </div>
     </div>
 
-    <div class="col-md-4">
-        <label class="form-label">Departure Time</label>
-        <input type="time" name="departure_time" class="form-control @error('departure_time') is-invalid @enderror" value="{{ old('departure_time', (isset($transport) ? \Carbon\Carbon::parse($transport->departure_time)->format('H:i') : '')) }}" required>
-        @error('departure_time') <div class="invalid-feedback">{{ $message }}</div> @enderror
-    </div>
-
-    <div class="col-md-4">
-        <label class="form-label">Available Seats</label>
-        <input type="number" min="1" name="available_seats" class="form-control @error('available_seats') is-invalid @enderror" value="{{ old('available_seats', $transport->available_seats ?? '') }}" required>
-        @error('available_seats') <div class="invalid-feedback">{{ $message }}</div> @enderror
-    </div>
-
-    <div class="col-md-4">
-        <label class="form-label">Price (₹)</label>
-        <input type="number" step="0.01" name="price" class="form-control @error('price') is-invalid @enderror" value="{{ old('price', $transport->price ?? '') }}" required>
-        @error('price') <div class="invalid-feedback">{{ $message }}</div> @enderror
+    <div class="pt-6 border-t border-slate-100 flex items-center justify-end gap-3">
+        <a href="{{ route('transports.index') }}" class="px-6 py-3 bg-white text-slate-700 border border-slate-200 font-bold rounded-xl hover:bg-slate-50 transition shadow-sm">
+            Cancel
+        </a>
+        <button type="submit" class="px-8 py-3 bg-teal-600 text-white font-bold rounded-xl hover:bg-teal-700 transition shadow-sm flex items-center gap-2">
+            <i class="bi bi-save"></i> Save Transport
+        </button>
     </div>
 </div>
