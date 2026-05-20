@@ -1,30 +1,61 @@
-# OmniTrek - Laravel Tourism Management Platform
+# OmniTrek Premium - Laravel Tourism Management Platform
 
-OmniTrek is a simple Laravel MVC project for tourism industry support. It helps tourists discover destinations, book hotels, choose travel packages, contact local guides, check transport options, and write reviews.
+OmniTrek Premium is a Laravel MVC web application for travel planning and tourism service management. It helps users explore destinations, hotels, travel packages, local guides, and transport options from one place. Users can also book hotels/packages, write reviews, view booking history, and create a combined trip plan using the smart trip planner.
+
+The project includes a normal user area and an admin area. Admin users can manage destinations, hotels, packages, guides, transport records, users, bookings, and trip information.
+
+## Project Report
+
+A complete college submission report has been generated in:
+
+```text
+OmniTrek_Project_Report.md
+```
+
+It includes the abstract, SRS format sections, project objective, scope, technology stack, MVC architecture, database design, module descriptions, working process, screenshot placeholders, conclusion, future scope, and references.
 
 ## Main Features
 
-- User register/login with `admin` and `user` roles
-- Destination CRUD with image, location, description, and rating
-- Hotel listing, search/filter, room availability, booking form, and booking history
-- Travel package listing, admin package CRUD, and package booking
-- Local guide directory with phone and email contact
-- Review and rating system for hotels and destinations
-- Admin dashboard for users, hotel bookings, package bookings, destinations, and hotels
-- Simple responsive frontend using Blade templates and Bootstrap
-- Seeded demo data for college presentation/testing
+- User registration, login, logout, and session-based authentication
+- Admin login with `admin` and `user` role checking
+- Destination listing, search/filter, detail page, reviews, and admin CRUD
+- Hotel listing, search/filter, room availability, hotel booking, and booking history
+- Travel package listing, package detail page, booking, and admin CRUD
+- Smart trip planner for bundling destination, hotel, package, and local guide
+- Local guide directory with contact details, language, fee, rating, and admin CRUD
+- Transport listing with route, provider, departure time, seats, price, and admin CRUD
+- Review and rating system for destinations and hotels
+- Admin dashboard with users, bookings, trips, and recent activity
+- Responsive Blade frontend using Tailwind CSS, Bootstrap Icons, Google Fonts, and Vite
+- Seeded demo data for academic presentation and testing
+
+## Technology Stack
+
+| Technology | Purpose |
+|---|---|
+| Laravel 13 | Backend framework and MVC structure |
+| PHP 8.3 | Server-side programming language |
+| Blade | Dynamic view templates |
+| SQLite | Current local database connection |
+| MySQL | Compatible database option for deployment |
+| Tailwind CSS 4 | Frontend styling |
+| Bootstrap Icons | Icons used in the UI |
+| Vite | CSS/JavaScript asset bundling |
+| Composer | PHP dependency management |
+| npm | Frontend dependency management |
 
 ## Database Schema
 
 - `users`: stores tourist/admin accounts with a `role`
-- `destinations`: stores tourism places
-- `hotels`: belongs to a destination and stores room availability
+- `destinations`: stores tourism places, images, descriptions, locations, and ratings
+- `hotels`: belongs to a destination and stores room availability and price
 - `hotel_bookings`: belongs to a user and hotel
-- `travel_packages`: belongs to a destination
+- `travel_packages`: belongs to a destination and stores package details
 - `package_bookings`: belongs to a user and travel package
-- `local_guides`: belongs to a destination
-- `transports`: stores travel availability information
+- `local_guides`: belongs to a destination and stores guide contact/fee details
+- `transports`: stores travel route, provider, seats, time, and price
 - `reviews`: belongs to a user and can connect to a hotel or destination
+- `trips`: stores planned user trips with destination, optional hotel/package/guide, dates, people, total price, and status
 
 ## Setup Steps
 
@@ -34,43 +65,63 @@ OmniTrek is a simple Laravel MVC project for tourism industry support. It helps 
 composer install
 ```
 
-2. Create the environment file:
+2. Install frontend dependencies:
+
+```bash
+npm install
+```
+
+3. Create the environment file:
 
 ```bash
 cp .env.example .env
 ```
 
-3. Generate app key:
+4. Generate the application key:
 
 ```bash
 php artisan key:generate
 ```
 
-4. Create SQLite database file if you are using SQLite:
+5. Create the SQLite database file if you are using SQLite:
 
 ```bash
 touch database/database.sqlite
 ```
 
-5. Update `.env` database settings if needed. For SQLite, use:
+6. Update `.env` database settings if needed. For SQLite, use:
 
 ```env
 DB_CONNECTION=sqlite
 ```
 
-6. Run migrations and seed demo data:
+For MySQL, update `DB_CONNECTION`, `DB_HOST`, `DB_PORT`, `DB_DATABASE`, `DB_USERNAME`, and `DB_PASSWORD`.
+
+7. Run migrations and seed demo data:
 
 ```bash
 php artisan migrate --seed
 ```
 
-7. Start the Laravel server:
+8. Build frontend assets:
+
+```bash
+npm run build
+```
+
+For development with hot reload, run this in a separate terminal:
+
+```bash
+npm run dev
+```
+
+9. Start the Laravel server:
 
 ```bash
 php artisan serve
 ```
 
-8. Open the project:
+10. Open the project:
 
 ```text
 http://127.0.0.1:8000
@@ -78,31 +129,40 @@ http://127.0.0.1:8000
 
 ## Demo Login
 
-- Admin page: `/admin/login`
-- Admin username: `admin`
-- User: `user@omnitrek.test`
-- Admin password: `admin`
-- User password: `password`
+Seeded demo users:
+
+| Role | Login URL | Email | Password |
+|---|---|---|---|
+| Admin | `/admin/login` | `admin@omnitrek.test` | `password` |
+| User | `/login` | `user@omnitrek.test` | `password` |
 
 ## Useful Routes
 
 - `/` home page
+- `/register` user registration
+- `/login` user login
+- `/admin/login` admin login
 - `/destinations` destination search and listing
 - `/hotels` hotel search and booking
 - `/packages` travel packages
 - `/guides` local guides
+- `/transports` transport options
+- `/plan-trip` smart trip planner
+- `/my-trips` saved user trips
 - `/booking-history` user booking history
 - `/admin/dashboard` admin panel
 
-## Example Student Commit Messages
+## Useful Commands
 
-- created basic laravel project setup
-- added user login and register pages
-- added destination management module
-- added hotel booking feature
-- created travel package booking system
-- added local guide listing page
-- added review and rating system
-- created admin dashboard page
-- added destination and hotel search filters
-- added sample seed data for tourease
+```bash
+php artisan route:list
+php artisan migrate:fresh --seed
+npm run build
+php artisan test
+```
+
+## Notes
+
+- The current local `.env` is configured for SQLite.
+- The project can be switched to MySQL by updating `.env` and running migrations.
+- If Laravel shows a Vite manifest error, run `npm run build` or keep `npm run dev` running during development.
