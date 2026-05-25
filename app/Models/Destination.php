@@ -27,4 +27,19 @@ class Destination extends Model
     {
         return $this->hasMany(Review::class);
     }
+
+    public function transports()
+    {
+        return $this->hasMany(Transport::class);
+    }
+
+    public function restaurants()
+    {
+        return $this->hasMany(Restaurant::class);
+    }
+
+    public function attractions()
+    {
+        return $this->hasMany(Attraction::class);
+    }
 }

@@ -40,7 +40,7 @@ class DestinationController extends Controller
     // Public — single destination detail page
     public function show(Destination $destination)
     {
-        $destination->load(['hotels', 'guides', 'packages', 'reviews.user']);
+        $destination->load(['hotels', 'guides', 'packages', 'reviews.user', 'transports', 'restaurants.reviews.user', 'attractions']);
         return view('destinations.show', compact('destination'));
     }
 

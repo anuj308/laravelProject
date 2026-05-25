@@ -110,8 +110,9 @@ class HotelController extends Controller
     {
         $hotelBookings   = HotelBooking::with('hotel')->where('user_id', auth()->id())->latest()->get();
         $packageBookings = PackageBooking::with('travelPackage')->where('user_id', auth()->id())->latest()->get();
+        $transportBookings = \App\Models\TransportBooking::with('transport')->where('user_id', auth()->id())->latest()->get();
 
-        return view('bookings.history', compact('hotelBookings', 'packageBookings'));
+        return view('bookings.history', compact('hotelBookings', 'packageBookings', 'transportBookings'));
     }
 
     private function validatedData(Request $request): array

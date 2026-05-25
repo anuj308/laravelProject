@@ -4,9 +4,9 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Transport extends Model
+class Attraction extends Model
 {
-    protected $fillable = ['destination_id', 'type', 'route', 'provider', 'departure_time', 'available_seats', 'price'];
+    protected $fillable = ['destination_id', 'name', 'image', 'description'];
 
     public function destination()
     {

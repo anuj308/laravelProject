@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Destination;
 use App\Models\Hotel;
+use App\Models\Restaurant;
 use App\Models\Review;
 use Illuminate\Http\Request;
 
@@ -42,6 +43,24 @@ class ReviewController extends Controller
         ]);
 
         $hotel->update(['rating' => round($hotel->reviews()->avg('rating'), 1)]);
+
+        return back()->with('success', 'Review added successfully.');
+    }
+
+    public function storeRestaurant(Request $request, Restaurant $restaurant)
+    {
+        abort_unless(auth()->check(), 403);
+
+        $data = $this->validatedData($request);
+
+        Review::create([
+            'user_id' => auth()->id(),
+            'restaurant_id' => $restaurant->id,
+            'rating' => $data['rating'],
+            'comment' => $data['comment'],
+        ]);
+
+        $restaurant->update(['rating' => round($restaurant->reviews()->avg('rating'), 1)]);
 
         return back()->with('success', 'Review added successfully.');
     }

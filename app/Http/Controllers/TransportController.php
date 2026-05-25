@@ -47,6 +47,32 @@ class TransportController extends Controller
         return redirect()->route('transports.index')->with('success', 'Transport remove ho gaya.');
     }
 
+    public function book(Transport $transport)
+    {
+        return view('transports.book', compact('transport'));
+    }
+
+    public function storeBooking(Request $request, Transport $transport)
+    {
+        $request->validate([
+            'travel_date' => ['required', 'date', 'after_or_equal:today'],
+            'people'      => ['required', 'integer', 'min:1', 'max:' . $transport->available_seats],
+        ]);
+
+        \App\Models\TransportBooking::create([
+            'user_id'      => auth()->id(),
+            'transport_id' => $transport->id,
+            'travel_date'  => $request->travel_date,
+            'people'       => $request->people,
+            'total_price'  => $transport->price * $request->people,
+            'status'       => 'confirmed',
+        ]);
+
+        $transport->decrement('available_seats', $request->people);
+
+        return redirect()->route('bookings.history')->with('success', 'Transport booked successfully!');
+    }
+
     // Validation rules ek jagah pe — DRY principle
     private function validatedData(Request $request): array
     {

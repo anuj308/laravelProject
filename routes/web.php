@@ -49,6 +49,11 @@ Route::middleware('auth')->group(function () {
     // Reviews
     Route::post('/destinations/{destination}/reviews', [ReviewController::class, 'storeDestination'])->name('destinations.reviews.store');
     Route::post('/hotels/{hotel}/reviews', [ReviewController::class, 'storeHotel'])->name('hotels.reviews.store');
+    Route::post('/restaurants/{restaurant}/reviews', [ReviewController::class, 'storeRestaurant'])->name('restaurants.reviews.store');
+
+    // Transport Booking
+    Route::get('/transports/{transport}/book', [TransportController::class, 'book'])->name('transports.book');
+    Route::post('/transports/{transport}/book', [TransportController::class, 'storeBooking']);
 
     // Smart Trip Planner (Innovation feature)
     Route::get('/plan-trip', [TripController::class, 'create'])->name('trips.create');

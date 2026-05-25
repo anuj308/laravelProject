@@ -54,6 +54,139 @@
                         <p class="text-slate-600 leading-relaxed text-lg">{{ $destination->description }}</p>
                     </div>
 
+                    <!-- Places to Visit (Attractions) -->
+                    @if($destination->attractions->count() > 0)
+                    <div class="bg-white rounded-3xl p-8 border border-slate-200 shadow-sm mb-12">
+                        <h2 class="text-2xl font-bold text-slate-900 mb-6 flex items-center gap-2">
+                            <i class="bi bi-camera text-teal-600"></i> Places to Visit
+                        </h2>
+                        <div class="grid grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
+                            @foreach($destination->attractions as $attraction)
+                            <div class="group relative aspect-square overflow-hidden rounded-2xl bg-slate-100 border border-slate-200 shadow-lg">
+                                <img src="{{ $attraction->image }}" class="h-full w-full object-cover transition duration-500 group-hover:scale-110" alt="{{ $attraction->name }}">
+                                <div class="absolute inset-0 bg-gradient-to-t from-slate-950/90 via-transparent to-transparent opacity-80 decoration-none"></div>
+                                <div class="absolute bottom-0 left-0 w-full p-4">
+                                    <h4 class="font-bold text-white text-xs sm:text-sm tracking-wide mb-1">{{ $attraction->name }}</h4>
+                                    <p class="text-[10px] text-slate-300 line-clamp-1 opacity-0 group-hover:opacity-100 transition duration-300">{{ $attraction->description }}</p>
+                                </div>
+                            </div>
+                            @endforeach
+                        </div>
+                    </div>
+                    @endif
+
+                    <!-- Restaurants to Explore -->
+                    @if($destination->restaurants->count() > 0)
+                    <div class="bg-white rounded-3xl p-8 border border-slate-200 shadow-sm mb-12">
+                        <h2 class="text-2xl font-bold text-slate-900 mb-6 flex items-center gap-2">
+                            <i class="bi bi-egg-fried text-amber-600"></i> Local Dining & Ratings
+                        </h2>
+                        <div class="grid grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
+                            @foreach($destination->restaurants as $restaurant)
+                            <div class="group relative aspect-square overflow-hidden rounded-2xl bg-slate-100 border border-slate-200 shadow-lg">
+                                <img src="{{ $restaurant->image }}" class="h-full w-full object-cover transition duration-500 group-hover:scale-110" alt="{{ $restaurant->name }}">
+                                <div class="absolute inset-0 bg-gradient-to-t from-slate-950/90 via-transparent to-transparent opacity-90"></div>
+                                
+                                <!-- Favorite Icon -->
+                                <button class="absolute top-3 right-3 w-8 h-8 rounded-full bg-white/20 backdrop-blur-md text-white flex items-center justify-center hover:bg-red-500 transition group-hover:scale-110 duration-300">
+                                    <i class="bi bi-heart"></i>
+                                </button>
+
+                                <div class="absolute bottom-0 left-0 w-full p-4">
+                                    <div class="flex items-center gap-1.5 text-amber-400 text-[10px] font-bold mb-1">
+                                        <i class="bi bi-star-fill"></i> {{ $restaurant->rating }} ({{ $restaurant->reviews->count() }} Reviews)
+                                    </div>
+                                    <h4 class="font-bold text-white text-xs sm:text-sm tracking-wide mb-1 line-clamp-1">{{ $restaurant->name }}</h4>
+                                    
+                                    <!-- Show Review Snippet if exists -->
+                                    @if($restaurant->reviews->count() > 0)
+                                        <p class="text-[10px] text-slate-300 italic line-clamp-1 opacity-0 group-hover:opacity-100 transition duration-300">
+                                            "{{ $restaurant->reviews->first()->comment }}"
+                                        </p>
+                                    @endif
+                                </div>
+                            </div>
+                            @endforeach
+                        </div>
+                    </div>
+                    @endif
+
+                    <!-- Transportation -->
+                    @if($destination->transports->count() > 0)
+                    <div class="bg-white rounded-3xl p-8 border border-slate-200 shadow-sm mb-12">
+                        <h2 class="text-2xl font-bold text-slate-900 mb-6 flex items-center gap-2">
+                            <i class="bi bi-bus-front text-blue-600"></i> Transportation & Cab Booking
+                        </h2>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            @foreach($destination->transports as $transport)
+                            <div class="p-5 rounded-2xl bg-slate-50 border border-slate-100 hover:border-teal-200 transition group">
+                                <div class="flex justify-between items-start mb-3">
+                                    <span class="px-2 py-0.5 bg-white border border-slate-200 rounded-md text-[10px] font-bold text-slate-500 uppercase">{{ $transport->type }}</span>
+                                    <span class="text-teal-600 font-bold text-sm">₹{{ number_format($transport->price) }}</span>
+                                </div>
+                                <h4 class="font-bold text-slate-800 text-sm mb-1">{{ $transport->provider }}</h4>
+                                <p class="text-xs text-slate-500 mb-4">{{ $transport->route }}</p>
+                                
+                                <div class="flex items-center justify-between mt-auto pt-4 border-t border-slate-200">
+                                    <div class="flex flex-col gap-1 text-[10px] text-slate-400 font-medium">
+                                        <span><i class="bi bi-clock"></i> {{ $transport->departure_time }}</span>
+                                        <span><i class="bi bi-person-check"></i> {{ $transport->available_seats }} Seats left</span>
+                                    </div>
+                                    <a href="{{ route('transports.book', $transport) }}" class="px-4 py-2 bg-slate-900 text-white text-[10px] font-bold rounded-lg hover:bg-teal-600 transition shadow-sm">
+                                        Book Now
+                                    </a>
+                                </div>
+                            </div>
+                            @endforeach
+                        </div>
+                    </div>
+                    @endif
+
+                    <!-- Stay Options (Hotels) -->
+                    @if($destination->hotels->count() > 0)
+                    <div class="bg-white rounded-3xl p-8 border border-slate-200 shadow-sm mb-12">
+                        <div class="flex justify-between items-center mb-6">
+                            <h2 class="text-2xl font-bold text-slate-900 flex items-center gap-2">
+                                <i class="bi bi-buildings text-indigo-600"></i> Stay Options (Hotels)
+                            </h2>
+                        </div>
+                        <div class="grid grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
+                            @foreach($destination->hotels as $hotel)
+                            <a href="{{ route('hotels.show', $hotel) }}" class="group relative aspect-square overflow-hidden rounded-2xl bg-slate-100 border border-slate-200 shadow-lg block">
+                                <img src="{{ $hotel->image }}" class="h-full w-full object-cover transition duration-500 group-hover:scale-110" alt="{{ $hotel->name }}">
+                                <div class="absolute inset-0 bg-gradient-to-t from-slate-950/90 via-transparent to-transparent opacity-90"></div>
+                                
+                                <div class="absolute top-3 right-3 px-2 py-1 bg-white/20 backdrop-blur-md rounded-lg text-white text-[10px] font-bold border border-white/30">
+                                    ₹{{ number_format($hotel->price_per_night) }}
+                                </div>
+
+                                <div class="absolute bottom-0 left-0 w-full p-4">
+                                    <div class="flex items-center gap-1.5 text-amber-400 text-[10px] font-bold mb-1">
+                                        <i class="bi bi-star-fill"></i> {{ $hotel->rating }}
+                                    </div>
+                                    <h4 class="font-bold text-white text-xs sm:text-sm tracking-wide mb-1 line-clamp-1">{{ $hotel->name }}</h4>
+                                    <p class="text-[10px] text-slate-300 line-clamp-1 opacity-0 group-hover:opacity-100 transition duration-300">View details & book stay</p>
+                                </div>
+                            </a>
+                            @endforeach
+                        </div>
+                    </div>
+                    @endif
+
+                    <!-- Rate Your Experience CTA -->
+                    <div class="relative overflow-hidden rounded-3xl bg-teal-600 p-8 sm:p-12 text-white shadow-xl mb-12 group">
+                        <div class="absolute -top-10 -right-10 w-48 h-48 bg-white/10 rounded-full blur-3xl group-hover:scale-125 transition duration-700"></div>
+                        <div class="relative z-10 flex flex-col md:flex-row items-center justify-between gap-8">
+                            <div class="text-center md:text-left">
+                                <h2 class="text-3xl font-extrabold mb-2 text-white">Explore complete?</h2>
+                                <p class="text-teal-50/80">Help other travelers by sharing your experience at {{ $destination->name }}.</p>
+                            </div>
+                            <button onclick="document.getElementById('review-form').scrollIntoView({ behavior: 'smooth' })" class="px-8 py-4 bg-white text-teal-600 font-extrabold rounded-2xl hover:bg-teal-50 transition shadow-lg whitespace-nowrap">
+                                <i class="bi bi-star-fill"></i> Rate your Trip
+                            </button>
+                        </div>
+                    </div>
+
                     <!-- Reviews Section -->
                     <div class="mb-12">
                         <h2 class="text-2xl font-bold text-slate-900 mb-8 flex items-center gap-2">
@@ -140,33 +273,6 @@
                 <div class="lg:w-1/3">
                     <div class="sticky top-28 space-y-8">
                         
-                        <!-- Hotels Widget -->
-                        <div class="bg-white rounded-3xl border border-slate-200 shadow-sm overflow-hidden">
-                            <div class="bg-slate-900 p-5 flex justify-between items-center">
-                                <h3 class="font-bold text-white flex items-center gap-2">
-                                    <i class="bi bi-buildings"></i> Nearby Stays
-                                </h3>
-                                <span class="bg-slate-800 text-slate-300 text-xs px-2 py-1 rounded-md font-semibold">{{ $destination->hotels->count() }} Available</span>
-                            </div>
-                            <div class="p-2">
-                                @forelse($destination->hotels as $hotel)
-                                    <a href="{{ route('hotels.show', $hotel) }}" class="flex items-center justify-between p-3 rounded-2xl hover:bg-slate-50 transition group">
-                                        <div>
-                                            <h4 class="font-bold text-slate-800 text-sm group-hover:text-teal-600 transition">{{ $hotel->name }}</h4>
-                                            <p class="text-xs text-slate-500 mt-0.5 flex items-center gap-1">
-                                                <i class="bi bi-star-fill text-amber-400"></i> {{ $hotel->rating }}
-                                            </p>
-                                        </div>
-                                        <div class="text-right">
-                                            <div class="font-bold text-slate-900 text-sm">₹{{ number_format($hotel->price_per_night) }}</div>
-                                            <div class="text-[10px] text-slate-400 uppercase tracking-wide font-semibold">/night</div>
-                                        </div>
-                                    </a>
-                                @empty
-                                    <div class="p-4 text-center text-sm text-slate-500">No hotels listed yet.</div>
-                                @endforelse
-                            </div>
-                        </div>
 
                         <!-- Guides Widget -->
                         <div class="bg-white rounded-3xl border border-slate-200 shadow-sm overflow-hidden">
